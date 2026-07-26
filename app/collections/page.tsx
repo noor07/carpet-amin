@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "@/components/Image";
 import Hero from "@/components/Hero";
 import SectionHeading from "@/components/SectionHeading";
 import RugCard from "@/components/RugCard";
@@ -49,10 +50,11 @@ export default function CollectionsPage() {
       <section className="relative overflow-hidden bg-ink">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 md:grid-cols-2">
           <div className="relative h-72 md:h-auto">
-            <img
+            <Image
               src="/images/craft/hands-weaving-loom.jpg"
               alt="Artisan hand-knotting a rug"
-              className="h-full w-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
           <div className="flex flex-col justify-center px-6 py-14 text-white md:px-16">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/Image";
 import Hero from "@/components/Hero";
 
 export const metadata: Metadata = {

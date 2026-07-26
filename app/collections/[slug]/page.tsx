@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/Image";
 import { notFound } from "next/navigation";
 import { getRug, relatedRugs, rugs, getCollection } from "@/lib/rugs";
 import ProductGallery from "@/components/ProductGallery";

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/Image";
 import { ReactNode } from "react";
 
 export default function Hero({
