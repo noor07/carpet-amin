@@ -17,6 +17,7 @@ export default function Header() {
 
   return (
     <header className="absolute top-0 left-0 right-0 z-50 text-white">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/35 to-transparent" />
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-6 md:px-10">
         <Link href="/" className="leading-none">
           <div className="font-serif text-xl tracking-widest-xl md:text-2xl">
