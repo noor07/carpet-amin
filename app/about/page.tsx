@@ -166,7 +166,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-line">
+      <section id="process" className="border-t border-line">
         <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
           <h2 className="text-center font-serif text-3xl md:text-4xl">
             Rooted in Bhadohi

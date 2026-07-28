@@ -60,12 +60,47 @@ export default async function RugDetailPage({
     "/images/craft/hand-knotting-macro.jpg",
   ];
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 2, name: "Collections", item: "/collections" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: collection?.name ?? "Collection",
+        item: `/collections#${rug.collection}`,
+      },
+      { "@type": "ListItem", position: 4, name: rug.name, item: `/collections/${rug.slug}` },
+    ],
+  };
+
   return (
     <div className="pt-28 md:pt-36">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <nav
+          aria-label="Breadcrumb"
+          className="flex flex-wrap items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-muted"
+        >
+          <Link href="/" className="hover:text-ink">Home</Link>
+          <span>/</span>
+          <Link href="/collections" className="hover:text-ink">Collections</Link>
+          <span>/</span>
+          <Link href={`/collections#${rug.collection}`} className="hover:text-ink">
+            {collection?.name}
+          </Link>
+          <span>/</span>
+          <span className="text-ink">{rug.name}</span>
+        </nav>
+
         <Link
           href="/collections"
-          className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted hover:text-ink"
+          className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted hover:text-ink"
         >
           ← Back to Collections
         </Link>

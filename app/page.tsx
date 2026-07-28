@@ -212,18 +212,21 @@ export default function Home() {
               title: "Materials",
               text: "We use the finest Himalayan wool and silk, chosen for their strength, softness, and ability to age gracefully.",
               cta: "Learn More",
+              href: "/about",
               image: "/images/craft/wool-silk-skeins.jpg",
             },
             {
               title: "Design Process",
               text: "Every design begins with research—landscape, texture, history, memory—transformed into form.",
               cta: "Our Process",
+              href: "/about#process",
               image: "/images/craft/traditional-loom.jpg",
             },
             {
               title: "Made to Last",
               text: "SUNDUS rugs are created to be lived with for decades, becoming part of your story over time.",
               cta: "Care Guide",
+              href: "/care",
               image: "/images/interiors/cta-rattan-chair.jpg",
             },
           ].map((card) => (
@@ -240,7 +243,10 @@ export default function Home() {
               <p className="mt-2 text-[13px] leading-relaxed text-muted">
                 {card.text}
               </p>
-              <span className="mt-3 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em]">
+              <Link
+                href={card.href}
+                className="mt-3 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] hover:text-muted"
+              >
                 {card.cta}
                 <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
                   <path
@@ -249,7 +255,7 @@ export default function Home() {
                     strokeWidth="1.1"
                   />
                 </svg>
-              </span>
+              </Link>
             </div>
           ))}
         </div>
