@@ -50,7 +50,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/fractured-jade-tablet.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "New Zealand Wool & Mulberry Silk",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -70,7 +70,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/whale-compression.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Tibetan Wool & Himalayan Wool",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -90,7 +90,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/grand-canyon.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Afghan Handspun Wool & Silk",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -110,7 +110,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/amazon-rainforest.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Himalayan Wool & Bamboo Silk",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -130,7 +130,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/natural-aztec.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Undyed Wool & Cotton",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -150,7 +150,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/eroded-light.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Cashmere Wool & Silk",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -170,7 +170,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/heritage-garden.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Himalayan Wool & Mulberry Silk",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -190,7 +190,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/lotus-royale.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "New Zealand Wool & Silk",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -210,7 +210,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/dari-rug-uttar-pradesh.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Cotton & Wool Blend",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",
@@ -230,7 +230,7 @@ export const rugs: Rug[] = [
     image: "/images/rugs/jaipur-pink-city.jpg",
     details: {
       technique: "Hand-Knotted",
-      material: "Himalayan Wool & Silk",
+      material: "Himalayan Wool & Viscose",
       pileHeight: "Variable",
       knotDensity: "150–200 KPSI",
       origin: "Bhadohi, India",

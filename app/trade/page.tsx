@@ -26,6 +26,21 @@ const benefits = [
   },
 ];
 
+const whyTrade = [
+  {
+    title: "Manufacturer-Direct",
+    text: "Our rugs are hand-knotted in our own workshop in Bhadohi, India — you work with the maker, not a distributor or reseller.",
+  },
+  {
+    title: "Every Technique on Request",
+    text: "Beyond our standing collections, our workshop can execute hand-knotted, hand-tufted, and flat-weave construction across wool, silk, and blended fibers for bespoke commissions.",
+  },
+  {
+    title: "Built for Real Projects",
+    text: "Specification sheets, knot density, and lead times are provided upfront so your project timeline is never a guessing game.",
+  },
+];
+
 export default function TradePage() {
   return (
     <>
@@ -50,7 +65,31 @@ export default function TradePage() {
           ))}
         </div>
 
-        <div className="mt-20 flex flex-col items-center gap-6 border-t border-line pt-16 text-center">
+      </section>
+
+      <section className="border-t border-line bg-paper-warm">
+        <div className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
+          <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
+            Why Designers Choose SUNDUS
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-3">
+            {whyTrade.map((w, i) => (
+              <div key={w.title}>
+                <div className="text-[11px] tracking-[0.15em] text-muted">
+                  0{i + 1}
+                </div>
+                <h3 className="mt-3 font-serif text-xl">{w.title}</h3>
+                <p className="mt-3 text-[13px] leading-relaxed text-muted">
+                  {w.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
+        <div className="flex flex-col items-center gap-6 border-t border-line pt-16 text-center">
           <h2 className="font-serif text-3xl md:text-4xl">
             Apply for a Trade Account
           </h2>

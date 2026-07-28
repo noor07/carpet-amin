@@ -33,6 +33,9 @@ export default function Footer() {
             <Link href="/contact" className="hover:text-ink">
               Contact
             </Link>
+            <Link href="/policies" className="hover:text-ink">
+              Policies
+            </Link>
           </nav>
 
           <div className="text-[13px] leading-relaxed text-muted md:text-right">
