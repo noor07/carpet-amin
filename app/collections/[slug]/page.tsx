@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getRug, relatedRugs, rugs, getCollection } from "@/lib/rugs";
 import ProductGallery from "@/components/ProductGallery";
 import RugCard from "@/components/RugCard";
+import SpecSheetButton from "@/components/SpecSheetButton";
 
 export function generateStaticParams() {
   return rugs.map((r) => ({ slug: r.slug }));
@@ -18,9 +19,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const rug = getRug(slug);
   if (!rug) return {};
+  const title = `${rug.name} — SUNDUS`;
   return {
-    title: `${rug.name} — SUNDUS`,
+    title,
     description: rug.description,
+    openGraph: {
+      title,
+      description: rug.description,
+      images: [rug.image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: rug.description,
+      images: [rug.image],
+    },
   };
 }
 
@@ -60,6 +73,31 @@ export default async function RugDetailPage({
     "/images/craft/hand-knotting-macro.jpg",
   ];
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: rug.name,
+    description: rug.longDescription,
+    image: rug.image,
+    material: rug.details.material,
+    brand: { "@type": "Brand", name: "SUNDUS" },
+    additionalProperty: [
+      { "@type": "PropertyValue", name: "Technique", value: rug.details.technique },
+      { "@type": "PropertyValue", name: "Pile Height", value: rug.details.pileHeight },
+      { "@type": "PropertyValue", name: "Knot Density", value: rug.details.knotDensity },
+      { "@type": "PropertyValue", name: "Origin", value: rug.details.origin },
+      { "@type": "PropertyValue", name: "Lead Time", value: rug.details.leadTime },
+    ],
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/PreOrder",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        description: "Pricing available on request",
+      },
+    },
+  };
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -80,12 +118,16 @@ export default async function RugDetailPage({
     <div className="pt-28 md:pt-36">
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <nav
           aria-label="Breadcrumb"
-          className="flex flex-wrap items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-muted"
+          className="flex flex-wrap items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] text-muted print:hidden"
         >
           <Link href="/" className="hover:text-ink">Home</Link>
           <span>/</span>
@@ -100,13 +142,22 @@ export default async function RugDetailPage({
 
         <Link
           href="/collections"
-          className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted hover:text-ink"
+          className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted hover:text-ink print:hidden"
         >
           ← Back to Collections
         </Link>
 
+        <h1 className="mt-6 hidden font-serif text-3xl print:block">
+          {rug.name} — Spec Sheet
+        </h1>
+
         <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[auto_1fr_420px] lg:gap-14">
-          <ProductGallery images={gallery} alt={rug.name} />
+          <div className="print:hidden">
+            <ProductGallery images={gallery} alt={rug.name} />
+          </div>
+          <div className="relative hidden aspect-[4/5] w-64 overflow-hidden print:block">
+            <Image src={rug.image} alt={rug.name} fill className="object-cover" />
+          </div>
 
           <div className="hidden lg:block" />
 
@@ -136,7 +187,7 @@ export default async function RugDetailPage({
               </dl>
             </div>
 
-            <div className="mt-8 border-t border-line pt-6">
+            <div className="mt-8 border-t border-line pt-6 print:hidden">
               <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
                 Size Options
               </div>
@@ -160,15 +211,20 @@ export default async function RugDetailPage({
               >
                 Request Pricing &amp; Details
               </Link>
-              <button className="mt-4 flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted hover:text-ink">
-                Download Spec Sheet ↓
-              </button>
+              <SpecSheetButton />
+            </div>
+
+            <div className="mt-6 hidden text-[13px] print:block">
+              <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
+                Available Sizes
+              </div>
+              <p className="mt-2">{rug.sizes.join(", ")}, or custom size</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-20 grid grid-cols-2 gap-1 md:grid-cols-4">
+      <div className="mt-20 grid grid-cols-2 gap-1 print:hidden md:grid-cols-4">
         {closeUps.map((img, i) => (
           <div key={i} className="relative aspect-square overflow-hidden">
             <Image
@@ -181,7 +237,7 @@ export default async function RugDetailPage({
         ))}
       </div>
 
-      <section className="mx-auto max-w-[1400px] px-6 py-20 md:px-10">
+      <section className="mx-auto max-w-[1400px] px-6 py-20 print:hidden md:px-10">
         <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
           <div>
             <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
@@ -205,7 +261,7 @@ export default async function RugDetailPage({
         </div>
       </section>
 
-      <section className="border-t border-line">
+      <section className="border-t border-line print:hidden">
         <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-10">
           <div className="flex items-end justify-between">
             <h2 className="font-serif text-2xl md:text-3xl">

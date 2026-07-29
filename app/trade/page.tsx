@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Hero from "@/components/Hero";
+import InquiryForm from "@/components/InquiryForm";
 
 export const metadata: Metadata = {
   title: "Trade — SUNDUS",
@@ -89,20 +89,24 @@ export default function TradePage() {
       </section>
 
       <section className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
-        <div className="flex flex-col items-center gap-6 border-t border-line pt-16 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl">
-            Apply for a Trade Account
-          </h2>
-          <p className="max-w-lg text-[14px] leading-relaxed text-muted">
-            Tell us about your studio and current project, and our team will
-            follow up with pricing, lead times, and sample access.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-2 inline-flex items-center border border-ink px-7 py-3 text-[11px] uppercase tracking-[0.15em] transition hover:bg-ink hover:text-white"
-          >
-            Contact Our Trade Team
-          </Link>
+        <div className="grid grid-cols-1 gap-16 border-t border-line pt-16 md:grid-cols-2">
+          <div>
+            <h2 className="font-serif text-3xl md:text-4xl">
+              Apply for a Trade Account
+            </h2>
+            <div className="mt-4 h-px w-10 bg-ink/40" />
+            <p className="mt-5 max-w-md text-[14px] leading-relaxed text-muted">
+              Tell us about your studio and current project, and our team
+              will follow up with pricing, lead times, and sample access.
+              Already know which piece you&apos;d like a material sample of?
+              Mention it in your message.
+            </p>
+          </div>
+          <InquiryForm
+            subject="Trade Account Application"
+            roleOptions={["Interior Designer", "Architect", "Design Studio", "Other"]}
+            submitLabel="Apply for Trade Account"
+          />
         </div>
       </section>
     </>

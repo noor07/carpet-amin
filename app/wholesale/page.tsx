@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Hero from "@/components/Hero";
+import InquiryForm from "@/components/InquiryForm";
 
 export const metadata: Metadata = {
   title: "Wholesale — SUNDUS",
@@ -51,27 +52,30 @@ export default function WholesalePage() {
           ))}
         </div>
 
-        <div className="mt-20 flex flex-col items-center gap-6 border-t border-line pt-16 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl">
-            Start a Wholesale Account
-          </h2>
-          <p className="max-w-lg text-[14px] leading-relaxed text-muted">
-            Tell us about your business and typical order volume, and we&apos;ll
-            follow up with a line sheet, pricing, and lead times.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-2 inline-flex items-center border border-ink px-7 py-3 text-[11px] uppercase tracking-[0.15em] transition hover:bg-ink hover:text-white"
-          >
-            Contact Our Wholesale Team
-          </Link>
-          <p className="mt-2 text-[12px] text-muted">
-            Sourcing for a single client project instead?{" "}
-            <Link href="/trade" className="underline hover:text-ink">
-              Visit our Trade page
-            </Link>
-            .
-          </p>
+        <div className="mt-20 grid grid-cols-1 gap-16 border-t border-line pt-16 md:grid-cols-2">
+          <div>
+            <h2 className="font-serif text-3xl md:text-4xl">
+              Start a Wholesale Account
+            </h2>
+            <div className="mt-4 h-px w-10 bg-ink/40" />
+            <p className="mt-5 max-w-md text-[14px] leading-relaxed text-muted">
+              Tell us about your business and typical order volume, and
+              we&apos;ll follow up with a line sheet, pricing, and lead
+              times.
+            </p>
+            <p className="mt-4 text-[13px] text-muted">
+              Sourcing for a single client project instead?{" "}
+              <Link href="/trade" className="underline hover:text-ink">
+                Visit our Trade page
+              </Link>
+              .
+            </p>
+          </div>
+          <InquiryForm
+            subject="Wholesale Account Inquiry"
+            roleOptions={["Showroom", "Retailer", "Distributor", "Other"]}
+            submitLabel="Start a Wholesale Account"
+          />
         </div>
       </section>
     </>

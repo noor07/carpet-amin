@@ -16,9 +16,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getJournalPost(slug);
   if (!post) return {};
+  const title = `${post.title} — SUNDUS Journal`;
   return {
-    title: `${post.title} — SUNDUS Journal`,
+    title,
     description: post.excerpt,
+    openGraph: {
+      title,
+      description: post.excerpt,
+      type: "article",
+      images: [post.image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: post.excerpt,
+      images: [post.image],
+    },
   };
 }
 

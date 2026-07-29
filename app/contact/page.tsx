@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
+import InquiryForm from "@/components/InquiryForm";
 
 export const metadata: Metadata = {
   title: "Contact — SUNDUS",
@@ -55,53 +56,17 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <form className="space-y-5">
-            <div>
-              <label className="text-[11px] uppercase tracking-[0.15em] text-muted">
-                Name
-              </label>
-              <input
-                type="text"
-                className="mt-2 w-full border border-line bg-transparent px-4 py-3 text-[14px] outline-none focus:border-ink"
-              />
-            </div>
-            <div>
-              <label className="text-[11px] uppercase tracking-[0.15em] text-muted">
-                Email
-              </label>
-              <input
-                type="email"
-                className="mt-2 w-full border border-line bg-transparent px-4 py-3 text-[14px] outline-none focus:border-ink"
-              />
-            </div>
-            <div>
-              <label className="text-[11px] uppercase tracking-[0.15em] text-muted">
-                I am a
-              </label>
-              <select className="mt-2 w-full border border-line bg-transparent px-4 py-3 text-[14px] outline-none focus:border-ink">
-                <option>Private Collector</option>
-                <option>Interior Designer</option>
-                <option>Architect</option>
-                <option>Trade Partner</option>
-                <option>Press / Media</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-[11px] uppercase tracking-[0.15em] text-muted">
-                Message
-              </label>
-              <textarea
-                rows={5}
-                className="mt-2 w-full border border-line bg-transparent px-4 py-3 text-[14px] outline-none focus:border-ink"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-ink py-3.5 text-[12px] uppercase tracking-[0.15em] text-white hover:bg-ink/90"
-            >
-              Send Inquiry
-            </button>
-          </form>
+          <InquiryForm
+            subject="Website Inquiry"
+            roleOptions={[
+              "Private Collector",
+              "Interior Designer",
+              "Architect",
+              "Trade Partner",
+              "Press / Media",
+            ]}
+            submitLabel="Send Inquiry"
+          />
         </div>
       </section>
     </>
