@@ -151,15 +151,13 @@ export default async function RugDetailPage({
           {rug.name} — Spec Sheet
         </h1>
 
-        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[auto_1fr_420px] lg:gap-14">
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-14">
           <div className="print:hidden">
             <ProductGallery images={gallery} alt={rug.name} />
           </div>
           <div className="relative hidden aspect-[4/5] w-64 overflow-hidden print:block">
             <Image src={rug.image} alt={rug.name} fill className="object-cover" />
           </div>
-
-          <div className="hidden lg:block" />
 
           <div className="lg:pl-0">
             <div className="text-[11px] uppercase tracking-[0.2em] text-muted">

@@ -14,7 +14,7 @@ export default function ProductGallery({
 
   return (
     <div className="flex gap-4">
-      <div className="flex flex-col gap-3">
+      <div className="flex shrink-0 flex-col gap-3">
         {images.map((img, i) => (
           <button
             key={img + i}
@@ -27,7 +27,7 @@ export default function ProductGallery({
           </button>
         ))}
       </div>
-      <div className="relative aspect-[4/5] w-[calc(100vw-6.5rem)] max-w-[420px] shrink-0 overflow-hidden bg-paper-warm md:w-[420px]">
+      <div className="relative aspect-[4/5] min-w-0 max-w-[720px] flex-1 overflow-hidden bg-paper-warm">
         <Image
           src={images[active]}
           alt={alt}
