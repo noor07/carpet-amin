@@ -27,7 +27,7 @@ export default function ProductGallery({
           </button>
         ))}
       </div>
-      <div className="relative aspect-[4/5] w-full flex-1 overflow-hidden bg-paper-warm">
+      <div className="relative aspect-[4/5] w-[calc(100vw-6.5rem)] max-w-[420px] shrink-0 overflow-hidden bg-paper-warm md:w-[420px]">
         <Image
           src={images[active]}
           alt={alt}
