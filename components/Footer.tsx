@@ -22,6 +22,7 @@ export default function Footer() {
             <div className="mb-1 text-[10px] tracking-[0.15em] text-muted/70">Explore</div>
             <Link href="/collections" className="hover:text-ink">Collections</Link>
             <Link href="/projects" className="hover:text-ink">In The Room</Link>
+            <Link href="/rug-placement-studio" className="hover:text-ink">Placement Studio</Link>
             <Link href="/journal" className="hover:text-ink">Journal</Link>
             <Link href="/about" className="hover:text-ink">About</Link>
           </nav>

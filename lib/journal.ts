@@ -5,6 +5,8 @@ export type JournalPost = {
   image: string;
   tag: string;
   content: string[];
+  ctaHref?: string;
+  ctaLabel?: string;
 };
 
 export const journalPosts: JournalPost[] = [
@@ -77,6 +79,8 @@ export const journalPosts: JournalPost[] = [
       "As a starting point for a standard living room, an 8' x 10' rug suits a sofa and two chairs comfortably; a 9' x 12' or 10' x 14' gives a larger seating arrangement, or a room with a sofa and sectional, enough room to feel proportional rather than cramped.",
       "Every SUNDUS design is available in multiple standard sizes, listed on each product page, and can be produced to a fully custom dimension for a specific room. If you're unsure which size fits your space, our team is glad to help you work it out before you order.",
     ],
+    ctaHref: "/rug-placement-studio",
+    ctaLabel: "Try the Rug Placement Studio",
   },
 ];
 

@@ -75,6 +75,15 @@ export default async function JournalPostPage({
             </p>
           ))}
         </div>
+
+        {post.ctaHref && post.ctaLabel && (
+          <Link
+            href={post.ctaHref}
+            className="mt-8 inline-flex items-center border border-ink px-7 py-3 text-[11px] uppercase tracking-[0.15em] transition hover:bg-ink hover:text-white"
+          >
+            {post.ctaLabel}
+          </Link>
+        )}
       </div>
 
       {more.length > 0 && (
