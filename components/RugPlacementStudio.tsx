@@ -21,7 +21,7 @@ const VIEW_H = 600;
 const PAD = 70;
 
 type DragState = {
-  idx: number;
+  target: number | "rug";
   startClientX: number;
   startClientY: number;
   origX: number;
@@ -112,7 +112,13 @@ export default function RugPlacementStudio() {
 
   function onFurnPointerDown(e: ReactPointerEvent<SVGGElement>, idx: number) {
     const f = furniture[idx];
-    setDrag({ idx, startClientX: e.clientX, startClientY: e.clientY, origX: f.x, origY: f.y });
+    setDrag({ target: idx, startClientX: e.clientX, startClientY: e.clientY, origX: f.x, origY: f.y });
+    e.currentTarget.ownerSVGElement?.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  }
+
+  function onRugPointerDown(e: ReactPointerEvent<SVGGElement>) {
+    setDrag({ target: "rug", startClientX: e.clientX, startClientY: e.clientY, origX: rug.x, origY: rug.y });
     e.currentTarget.ownerSVGElement?.setPointerCapture(e.pointerId);
     e.preventDefault();
   }
@@ -124,9 +130,19 @@ export default function RugPlacementStudio() {
     const scaleY = VIEW_H / rect.height;
     const dxFt = ((e.clientX - drag.startClientX) * scaleX) / scale;
     const dyFt = ((e.clientY - drag.startClientY) * scaleY) / scale;
+
+    if (drag.target === "rug") {
+      setRug((prev) => ({
+        ...prev,
+        x: clamp(drag.origX + dxFt, 0, Math.max(0, roomW - prev.w)),
+        y: clamp(drag.origY + dyFt, 0, Math.max(0, roomL - prev.l)),
+      }));
+      return;
+    }
+
     setFurniture((prev) =>
       prev.map((p, i) =>
-        i === drag.idx
+        i === drag.target
           ? {
               ...p,
               x: clamp(drag.origX + dxFt, 0, Math.max(0, roomW - p.w)),
@@ -276,7 +292,7 @@ export default function RugPlacementStudio() {
           <div className="flex flex-col gap-4">
             <div className="relative border border-white/15 bg-white/[0.03] p-2.5">
               <div className="pointer-events-none absolute left-6 top-5 border border-white/15 bg-ink/70 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.08em] text-white/50">
-                Drag furniture to rearrange
+                Drag the rug or furniture to rearrange
               </div>
               <svg
                 viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -320,25 +336,27 @@ export default function RugPlacementStudio() {
                     <line x1={0} y1={0} x2={0} y2={7} stroke="#5c211e" strokeWidth={1.6} />
                   </pattern>
                 </defs>
-                <rect x={rx} y={ry} width={rw} height={rl} fill="url(#weave)" stroke="var(--gold)" strokeWidth={1.6} />
-                {[0, 1].map((side) =>
-                  Array.from({ length: fringeCount + 1 }).map((_, i) => {
-                    const fx = rx + (i / fringeCount) * rw;
-                    const fy = side === 0 ? ry : ry + rl;
-                    return (
-                      <line
-                        key={`${side}-${i}`}
-                        x1={fx}
-                        y1={fy}
-                        x2={fx}
-                        y2={fy + (side === 0 ? -5 : 5)}
-                        stroke="var(--gold)"
-                        strokeWidth={1}
-                        opacity={0.75}
-                      />
-                    );
-                  })
-                )}
+                <g className="cursor-grab active:cursor-grabbing" onPointerDown={onRugPointerDown}>
+                  <rect x={rx} y={ry} width={rw} height={rl} fill="url(#weave)" stroke="var(--gold)" strokeWidth={1.6} />
+                  {[0, 1].map((side) =>
+                    Array.from({ length: fringeCount + 1 }).map((_, i) => {
+                      const fx = rx + (i / fringeCount) * rw;
+                      const fy = side === 0 ? ry : ry + rl;
+                      return (
+                        <line
+                          key={`${side}-${i}`}
+                          x1={fx}
+                          y1={fy}
+                          x2={fx}
+                          y2={fy + (side === 0 ? -5 : 5)}
+                          stroke="var(--gold)"
+                          strokeWidth={1}
+                          opacity={0.75}
+                        />
+                      );
+                    })
+                  )}
+                </g>
 
                 {furniture.map((p, i) => {
                   const fx = ox + px(p.x),
