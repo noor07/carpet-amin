@@ -7,10 +7,12 @@ import {
   ROOM_DEFAULTS,
   RUG_PRESETS,
   clamp,
-  evaluate,
+  computeRug,
+  evaluateFit,
   fmt,
   furnitureFor,
   type FurniturePiece,
+  type Rug,
   type RoomType,
 } from "@/lib/roomPlanner";
 
@@ -34,13 +36,21 @@ export default function RugPlacementStudio() {
   const [rugL, setRugL] = useState(10);
   const [placement, setPlacement] = useState("front");
   const [furniture, setFurniture] = useState<FurniturePiece[]>(() => furnitureFor("living", ROOM_DEFAULTS.living.w, ROOM_DEFAULTS.living.l).pieces);
+  // The rug's position is only ever recomputed explicitly (room/rug size changes,
+  // switching room type, or Reset layout) — never derived live from furniture, so
+  // dragging a piece (including the anchor) never drags the rug along with it.
+  const [rug, setRug] = useState<Rug>(() =>
+    computeRug("living", ROOM_DEFAULTS.living.w, ROOM_DEFAULTS.living.l, 8, 10, furnitureFor("living", ROOM_DEFAULTS.living.w, ROOM_DEFAULTS.living.l).pieces[0])
+  );
   const [drag, setDrag] = useState<DragState | null>(null);
 
   const anchorIdx = 0;
   const isCustomRug = !RUG_PRESETS.some((p) => p.w === rugW && p.l === rugL);
 
   function resetLayout(nextType: RoomType = roomType, w = roomW, l = roomL) {
-    setFurniture(furnitureFor(nextType, w, l).pieces);
+    const pieces = furnitureFor(nextType, w, l).pieces;
+    setFurniture(pieces);
+    setRug(computeRug(nextType, w, l, rugW, rugL, pieces[0]));
   }
 
   function handleRoomType(type: RoomType) {
@@ -54,15 +64,25 @@ export default function RugPlacementStudio() {
 
   function handleRoomDim(which: "w" | "l", value: number) {
     const v = Math.max(8, value || 8);
+    const nextW = which === "w" ? v : roomW;
+    const nextL = which === "l" ? v : roomL;
     if (which === "w") setRoomW(v);
     else setRoomL(v);
-    setFurniture((prev) =>
-      prev.map((p) => ({
+    setFurniture((prev) => {
+      const clamped = prev.map((p) => ({
         ...p,
-        x: clamp(p.x, 0, Math.max(0, (which === "w" ? v : roomW) - p.w)),
-        y: clamp(p.y, 0, Math.max(0, (which === "l" ? v : roomL) - p.d)),
-      }))
-    );
+        x: clamp(p.x, 0, Math.max(0, nextW - p.w)),
+        y: clamp(p.y, 0, Math.max(0, nextL - p.d)),
+      }));
+      setRug(computeRug(roomType, nextW, nextL, rugW, rugL, clamped[anchorIdx]));
+      return clamped;
+    });
+  }
+
+  function handleRugSize(w: number, l: number) {
+    setRugW(w);
+    setRugL(l);
+    setRug(computeRug(roomType, roomW, roomL, w, l, furniture[anchorIdx]));
   }
 
   const scale = useMemo(() => {
@@ -71,9 +91,9 @@ export default function RugPlacementStudio() {
     return Math.min(availW / roomW, availH / roomL);
   }, [roomW, roomL]);
 
-  const { rug, status, text } = useMemo(
-    () => evaluate(roomType, roomW, roomL, rugW, rugL, placement, furniture, anchorIdx),
-    [roomType, roomW, roomL, rugW, rugL, placement, furniture]
+  const { status, text } = useMemo(
+    () => evaluateFit(roomType, rug, placement, furniture, anchorIdx),
+    [roomType, rug, placement, furniture]
   );
 
   const drawW = roomW * scale;
@@ -187,10 +207,7 @@ export default function RugPlacementStudio() {
                 {RUG_PRESETS.map((p) => (
                   <button
                     key={`${p.w}x${p.l}`}
-                    onClick={() => {
-                      setRugW(p.w);
-                      setRugL(p.l);
-                    }}
+                    onClick={() => handleRugSize(p.w, p.l)}
                     className={`border px-1.5 py-2 text-[12px] transition ${
                       !isCustomRug && rugW === p.w && rugL === p.l
                         ? "border-gold text-gold"
@@ -215,7 +232,7 @@ export default function RugPlacementStudio() {
                   max={20}
                   step={0.5}
                   value={rugW}
-                  onChange={(e) => setRugW(Math.max(2, +e.target.value || 2))}
+                  onChange={(e) => handleRugSize(Math.max(2, +e.target.value || 2), rugL)}
                   className="w-full border border-white/15 bg-white/5 px-2.5 py-2 text-[14px] text-white outline-none focus:border-gold"
                 />
                 <span className="text-white/40">×</span>
@@ -225,7 +242,7 @@ export default function RugPlacementStudio() {
                   max={24}
                   step={0.5}
                   value={rugL}
-                  onChange={(e) => setRugL(Math.max(2, +e.target.value || 2))}
+                  onChange={(e) => handleRugSize(rugW, Math.max(2, +e.target.value || 2))}
                   className="w-full border border-white/15 bg-white/5 px-2.5 py-2 text-[14px] text-white outline-none focus:border-gold"
                 />
               </div>
@@ -263,7 +280,7 @@ export default function RugPlacementStudio() {
               </div>
               <svg
                 viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-                className="block w-full touch-none"
+                className="block w-full touch-none select-none"
                 onPointerMove={onSvgPointerMove}
                 onPointerUp={endDrag}
                 onPointerCancel={endDrag}

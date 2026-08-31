@@ -112,7 +112,7 @@ export function furnitureFor(
 }
 
 export type Rug = { x: number; y: number; w: number; l: number };
-export type Verdict = { rug: Rug; status: "good" | "warn"; text: string };
+export type Fit = { status: "good" | "warn"; text: string };
 
 function rectOverlap(
   a: { x: number; y: number; w: number; l: number },
@@ -121,28 +121,61 @@ function rectOverlap(
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.l && a.y + a.l > b.y;
 }
 
-export function evaluate(
+/**
+ * Where the rug sits, given the anchor piece's position at the moment this is called.
+ * This is deliberately NOT re-run on every render — only when the room type, room
+ * dimensions, or rug size change (or the layout is reset) — so the rug stays put
+ * while you drag furniture around it instead of chasing the anchor piece.
+ */
+export function computeRug(
   type: RoomType,
   roomW: number,
   roomL: number,
   rugW: number,
   rugL: number,
-  placement: string,
-  furniture: FurniturePiece[],
-  anchorIdx: number
-): Verdict {
-  const anchor = furniture[anchorIdx];
-  let rug: Rug;
-
+  anchor: FurniturePiece
+): Rug {
   if (type === "living") {
     const bottom = anchor.y + anchor.d;
-    rug = {
+    return {
       x: clamp(anchor.x + anchor.w / 2 - rugW / 2, 0, Math.max(0, roomW - rugW)),
       y: Math.max(0, bottom - rugL),
       w: rugW,
       l: rugL,
     };
-    const rugBottom = rug.y + rugL;
+  }
+  if (type === "bedroom") {
+    return {
+      x: clamp(anchor.x + anchor.w / 2 - rugW / 2, 0, Math.max(0, roomW - rugW)),
+      y: anchor.y,
+      w: rugW,
+      l: rugL,
+    };
+  }
+  // dining
+  return {
+    x: clamp(anchor.x + anchor.w / 2 - rugW / 2, 0, Math.max(0, roomW - rugW)),
+    y: clamp(anchor.y + anchor.d / 2 - rugL / 2, 0, Math.max(0, roomL - rugL)),
+    w: rugW,
+    l: rugL,
+  };
+}
+
+/**
+ * How well the (fixed) rug fits given the furniture's CURRENT positions — safe to
+ * re-run on every render, including mid-drag, since it never moves the rug itself.
+ */
+export function evaluateFit(
+  type: RoomType,
+  rug: Rug,
+  placement: string,
+  furniture: FurniturePiece[],
+  anchorIdx: number
+): Fit {
+  const anchor = furniture[anchorIdx];
+
+  if (type === "living") {
+    const rugBottom = rug.y + rug.l;
     let status: "good" | "warn", text: string;
     if (rugBottom < anchor.y - 0.3) {
       status = "warn";
@@ -169,17 +202,11 @@ export function evaluate(
         ? `Rug currently touches furniture — pull the size down or drag pieces apart to keep it floating clear.`
         : `Rug floats clear of every piece, as intended.`;
     }
-    return { rug, status, text };
+    return { status, text };
   }
 
   if (type === "bedroom") {
-    rug = {
-      x: clamp(anchor.x + anchor.w / 2 - rugW / 2, 0, Math.max(0, roomW - rugW)),
-      y: anchor.y,
-      w: rugW,
-      l: rugL,
-    };
-    const rugBottom = rug.y + rugL;
+    const rugBottom = rug.y + rug.l;
     const bedBottom = anchor.y + anchor.d;
     let status: "good" | "warn", text: string;
     if (rugBottom >= bedBottom + 0.2) {
@@ -194,22 +221,16 @@ export function evaluate(
       status = "warn";
       text = `Rug is quite shallow under the bed — consider a longer size, or pair with bedside runners instead.`;
     }
-    return { rug, status, text };
+    return { status, text };
   }
 
   // dining
-  rug = {
-    x: clamp(anchor.x + anchor.w / 2 - rugW / 2, 0, Math.max(0, roomW - rugW)),
-    y: clamp(anchor.y + anchor.d / 2 - rugL / 2, 0, Math.max(0, roomL - rugL)),
-    w: rugW,
-    l: rugL,
-  };
-  const pulloutClear = rugW >= anchor.w + 4.4 && rugL >= anchor.d + 4.4;
+  const pulloutClear = rug.w >= anchor.w + 4.4 && rug.l >= anchor.d + 4.4;
   const status: "good" | "warn" = pulloutClear ? "good" : "warn";
   const text = pulloutClear
     ? `Chairs stay on the rug even pulled fully out from the table.`
     : `Chairs will roll off the rug edge when pulled out — add at least 24" of rug beyond the table on every side.`;
-  return { rug, status, text };
+  return { status, text };
 }
 
 export function fmt(v: number): string {
