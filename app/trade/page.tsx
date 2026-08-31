@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import InquiryForm from "@/components/InquiryForm";
+import Testimonials from "@/components/Testimonials";
 
 export const metadata: Metadata = {
   title: "Trade — SUNDUS",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 const benefits = [
   {
     title: "Trade Pricing",
-    text: "Preferred pricing structures for qualified interior designers, architects, and studios.",
+    text: "Tiered trade pricing based on project scope, with net payment terms available for approved accounts. Contact us for current rates.",
   },
   {
     title: "Custom Sizing",
@@ -18,11 +19,30 @@ const benefits = [
   },
   {
     title: "Sample Program",
-    text: "Request physical material and colorway samples before committing to a full production run.",
+    text: "Request a physical material and colorway sample before committing to a full production run — ask when you apply.",
   },
   {
     title: "Dedicated Support",
     text: "A direct point of contact for lead times, specification sheets, and project coordination.",
+  },
+];
+
+const process = [
+  {
+    title: "Consultation & Brief",
+    text: "Share your project, space, and vision. We'll help you choose from an existing design or scope a fully custom piece.",
+  },
+  {
+    title: "Design & Material Selection",
+    text: "Review color, size, pile height, and material options, and approve a final specification before production begins.",
+  },
+  {
+    title: "Deposit & Production",
+    text: "A 50% deposit begins hand-knotting in our Bhadohi workshop. Standard collection pieces run 8–10 weeks; fully custom designs may take longer depending on complexity.",
+  },
+  {
+    title: "Balance & Delivery",
+    text: "The remaining balance is due before your rug ships. We coordinate delivery to your project site.",
   },
 ];
 
@@ -87,6 +107,27 @@ export default function TradePage() {
           </div>
         </div>
       </section>
+
+      <section className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
+          How Custom Ordering Works
+        </div>
+        <div className="mt-12 grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
+          {process.map((p, i) => (
+            <div key={p.title}>
+              <div className="text-[11px] tracking-[0.15em] text-muted">
+                0{i + 1}
+              </div>
+              <h3 className="mt-3 font-serif text-xl">{p.title}</h3>
+              <p className="mt-3 text-[13px] leading-relaxed text-muted">
+                {p.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Testimonials />
 
       <section className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
         <div className="grid grid-cols-1 gap-16 border-t border-line pt-16 md:grid-cols-2">

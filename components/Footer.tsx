@@ -44,8 +44,14 @@ export default function Footer() {
               <p>info@houseofsundus.com</p>
               <p>Jacksonville, Florida, USA</p>
               <div className="mt-4 flex gap-4 uppercase tracking-[0.12em] text-[11px]">
-                <a href="#" className="hover:text-ink">Instagram</a>
-                <a href="#" className="hover:text-ink">Pinterest</a>
+                <a
+                  href="https://www.instagram.com/houseofsundus/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-ink"
+                >
+                  Instagram
+                </a>
               </div>
             </div>
           </div>

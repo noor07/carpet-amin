@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "@/components/Image";
 import Hero from "@/components/Hero";
+import Testimonials from "@/components/Testimonials";
 
 export const metadata: Metadata = {
   title: "In The Room — SUNDUS",
@@ -68,8 +69,12 @@ export default function ProjectsPage() {
             </div>
           ))}
         </div>
+      </section>
 
-        <div className="mt-24 flex flex-col items-center gap-6 border-t border-line pt-16 text-center">
+      <Testimonials />
+
+      <section className="mx-auto max-w-[1400px] px-6 py-24 md:px-10">
+        <div className="flex flex-col items-center gap-6 border-t border-line pt-16 text-center">
           <h2 className="font-serif text-3xl md:text-4xl">
             Working on a Project?
           </h2>

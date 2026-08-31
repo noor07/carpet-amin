@@ -18,6 +18,10 @@ const faqs = [
     a: "Yes. Every design can be produced to custom dimensions, palettes, and pile heights. Reach out through our Trade page or Contact page with your project details and we'll follow up with options and pricing.",
   },
   {
+    q: "What are your payment terms?",
+    a: "Custom and made-to-order pieces require a 50% deposit to begin production, with the remaining balance due before your rug ships. Your point of contact will confirm the full payment schedule when your order is placed.",
+  },
+  {
     q: "What materials are SUNDUS rugs made from?",
     a: "Each rug is hand-knotted from natural fibers — primarily wool and silk, with the specific blend varying by design. Exact materials for each piece are listed on its product page under Details.",
   },
