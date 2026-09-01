@@ -7,6 +7,7 @@ import { collections } from "@/lib/rugs";
 const navLinks = [
   { href: "/about", label: "About" },
   { href: "/trade", label: "Trade" },
+  { href: "/rug-placement-studio", label: "Placement Studio" },
   { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" },
 ];
@@ -28,7 +29,7 @@ export default function Header() {
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-9 text-[12px] tracking-[0.15em] md:flex">
+        <nav className="hidden items-center gap-6 text-[12px] tracking-[0.15em] lg:flex">
           <div
             className="relative"
             onMouseEnter={() => setCollectionsOpen(true)}
@@ -72,7 +73,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Link
             href="/contact"
             className="border border-white/70 px-6 py-2.5 text-[11px] uppercase tracking-[0.15em] transition hover:bg-white hover:text-ink"
@@ -82,7 +83,7 @@ export default function Header() {
         </div>
 
         <button
-          className="md:hidden"
+          className="lg:hidden"
           aria-label="Toggle menu"
           onClick={() => setMobileOpen((v) => !v)}
         >
@@ -95,7 +96,7 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="bg-ink px-6 pb-6 text-white md:hidden">
+        <div className="bg-ink px-6 pb-6 text-white lg:hidden">
           <div className="flex flex-col gap-4 pt-2 text-[12px] uppercase tracking-[0.15em]">
             <Link href="/collections" onClick={() => setMobileOpen(false)}>
               Collections

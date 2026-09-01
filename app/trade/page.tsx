@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Hero from "@/components/Hero";
 import InquiryForm from "@/components/InquiryForm";
 import Testimonials from "@/components/Testimonials";
@@ -85,6 +86,15 @@ export default function TradePage() {
           ))}
         </div>
 
+        <Link
+          href="/rug-placement-studio"
+          className="mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] text-muted hover:text-ink"
+        >
+          Planning a client space? Try the Rug Placement Studio
+          <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
+            <path d="M0 4.5H13M13 4.5L9 0.5M13 4.5L9 8.5" stroke="currentColor" strokeWidth="1.1" />
+          </svg>
+        </Link>
       </section>
 
       <section className="border-t border-line bg-paper-warm">
